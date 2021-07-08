@@ -1,0 +1,54 @@
+version: '3.1'
+services:
+  innova-db:
+    container_name: innova-db
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: innova-db
+      MYSQL_ROOT_PASSWORD: changeit
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - /var/lib/mysql/:/var/lib/mysql/
+    ports:
+      - '3306:3306'
+    networks:
+      - innova-net
+
+  innova-api:
+    container_name: innova-api
+    build: ../API
+    image: hikozzaru/innova-api
+    restart: always
+    environment:
+      - spring.profiles.active=prd
+      - PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:mysql://innova-db:3306/innova-db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=changeit
+      - SPRING_MAIL_SENDER_USERNAME=innovaufps@ufps.edu.co
+      - SPRING_MAIL_SENDER_PASSWORD=changeit
+      - WEBSITE_PATH=http://innova.ufps.edu.co/
+    ports:
+      - '8080:8080'
+    networks:
+      - innova-net
+    depends_on:
+      - innova-db
+
+  innova-web:
+    container_name: innova-web
+    build: ../WEB
+    image: hikozzaru/innova-web
+    restart: always
+    ports:
+      - '80:80'
+      - '443:80'
+    networks:
+      - innova-net
+    depends_on:
+      - innova-api
+
+networks:
+  innova-net:
+    external: false
