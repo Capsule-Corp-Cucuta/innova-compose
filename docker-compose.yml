@@ -26,7 +26,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://innova-db:3306/innova-db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=changeit
-      - SPRING_MAIL_SENDER_USERNAME=innovaufps@ufps.edu.co
+      - SPRING_MAIL_SENDER_USERNAME=changeit
       - SPRING_MAIL_SENDER_PASSWORD=changeit
       - WEBSITE_PATH=http://innova.ufps.edu.co/
     ports:
@@ -43,7 +43,6 @@ services:
     restart: always
     ports:
       - '80:80'
-      - '443:80'
     networks:
       - innova-net
     depends_on:
