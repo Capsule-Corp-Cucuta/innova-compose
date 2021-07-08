@@ -17,7 +17,7 @@ services:
 
   innova-api:
     container_name: innova-api
-    build: ../API
+    build: ../innova-api
     image: hikozzaru/innova-api
     restart: always
     environment:
@@ -38,7 +38,7 @@ services:
 
   innova-web:
     container_name: innova-web
-    build: ../WEB
+    build: ../innova-web
     image: hikozzaru/innova-web
     restart: always
     ports:
